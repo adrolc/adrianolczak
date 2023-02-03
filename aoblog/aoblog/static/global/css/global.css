@@ -1,0 +1,19 @@
+body {
+    background-color: #eee;
+}
+
+
+.ao-gradient-1 {
+    background: #4788f9;
+    
+    background: -webkit-linear-gradient(to top right, #09e3f4, #4788f9, #862cfe);
+    
+    background: linear-gradient(to top right, #09e3f4, #4788f9, #862cfe);
+}
+.ao-gradient-2 {
+    background: #4788f9;
+    
+    background: -webkit-linear-gradient(to right, #09e3f4, #4788f9, #862cfe);
+    
+    background: linear-gradient(to right, #09e3f4, #4788f9, #862cfe);
+}

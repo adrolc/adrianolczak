@@ -1,0 +1,26 @@
+.ao-gradient {
+    /* fallback for old browsers */
+    background: #4788f9;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to top right, #09e3f4, #4788f9, #862cfe);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to top right, #09e3f4, #4788f9, #862cfe);
+    border: None
+    }
+    
+    @media (min-width: 769px) {
+    .ao-gradient {
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+    }
+}
+
+.ao-gradient-horizontal {
+    background: #4788f9;
+    
+    background: -webkit-linear-gradient(to right, #09e3f4, #4788f9, #862cfe);
+    
+    background: linear-gradient(to right, #09e3f4, #4788f9, #862cfe);
+}
