@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+<!-- ====== Custom head content ====== -->
+{% block head %}
+<link href="{% static 'account/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+<!-- ====== Main content ====== -->
+{% block main_content %}
+
+    <!-- Navbar -->
+    {% include 'includes/navbar.html' %}
+    
+    <!-- Content -->
+    {% block content %}
+    {% endblock %}
+    
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+
+{% endblock %}
+
+<!-- ====== Custom scripts ====== -->
+{% block scripts %}
+
+{% endblock %}

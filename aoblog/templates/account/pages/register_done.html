@@ -1,0 +1,16 @@
+{% extends 'account/form_base.html' %}
+{% load static %}
+
+{% block form_title %}Welcome!{% endblock %}
+
+{% block form_content %}
+
+    <h4 class="text-center">Your account has been successfully created.</h4>
+    <div class="text-center pb-4 mt-5">
+    <p class="mb-0 me-2">Now you can</p>
+    </div>
+    <div class="text-center pt-1 mb-5 pb-1 d-grid">
+    <a href="{% url 'account:login' %}" class="btn btn-primary ao-gradient-horizontal mb-3 border-0">Log in</a>
+    </div>
+
+{% endblock %}

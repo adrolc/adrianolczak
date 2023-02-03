@@ -1,0 +1,37 @@
+{% extends 'account/form_base.html' %}
+{% load static %}
+
+{% block form_title %}Login{% endblock %}
+
+{% block form_content %}
+
+  <!-- Print errors -->
+  {% if form.errors %}
+  <small class="text-danger">Your username and password didn't match. Please try again.</small>
+  {% endif %}
+
+  <!-- Form -->
+  <form action="{% url 'account:login' %}" method="POST">
+    {% csrf_token %}
+    <p>Please login to your account</p>
+    {% for field in form %}
+    <div class="form-outline mb-4">
+      {{ field }}
+      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    </div>
+    {% endfor %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <div class="text-center pt-1 mb-5 pb-1 d-grid">
+      <button class="btn btn-primary ao-gradient-horizontal mb-3 border-0" type="submit">Log in</button>
+      <a class="text-muted" href="{% url 'account:password_reset' %}">Forgot password?</a>
+    </div>
+  </form>
+  
+
+  <div class="d-flex align-items-center justify-content-center pb-4">
+    <p class="mb-0 me-2">Don't have an account?</p>
+    <a href="{% url 'account:register' %}" type="button" class="btn btn-outline-primary">Sign up</a>
+  </div>
+  
+
+{% endblock %}

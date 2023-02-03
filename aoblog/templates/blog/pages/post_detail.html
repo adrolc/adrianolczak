@@ -1,0 +1,64 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block top %}
+{% include 'blog/includes/breadcrumb.html' %}
+{% endblock %}
+
+{% block content %}
+
+<img src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" class="img-fluid" alt="...">
+    <div class="tags my-2">
+        <span class="badge text-bg-secondary">python</span>
+        <span class="badge text-bg-secondary">backend</span>
+        <span class="badge text-bg-secondary">programming</span>
+        <span class="badge text-bg-secondary">dev</span>
+        <span class="badge text-bg-secondary">django</span>
+    </div>
+    <h1 class="my-4 text-center">{{ post.title }}</h1>
+    <p class="fs-5">{{ post.body }}</p>
+    <hr>
+    <h1 class="display-5">Comments</h1>
+    {% with comments.count as total_comments %}
+    <h5>
+      {{ total_comments }} {{ total_comments|pluralize:"comment,comments" }}
+    </h5>
+    {% endwith %}
+
+    {% for comment in comments %}
+    <div class="comment">
+      <p class="text-muted">
+        Comment {{ forloop.counter }} by {{ comment.user }}
+        {{ comment.created }}
+      </p>
+      {{ comment.body|linebreaks }}
+    </div>
+    {% empty %}
+        <p>There are no comments yet.</p>
+    {% endfor %}
+
+    <h2>Add a new comment</h2>
+    {% if user.is_authenticated %}
+      {% if cannot_comment %}
+        <div class="alert alert-danger" role="alert">
+          you have exceeded the comment limit per hour
+        </div>
+      {% else %}
+        <form method="post">
+          {{ comment_form.as_p }}
+          {% csrf_token %}
+          <p><input type="submit" value="Add comment"></p>
+        </form>
+      {% endif %}
+    {% else %}
+    <div class="alert alert-info" role="alert">
+      To add a comment you must be logged in
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'blog/includes/sidebar/sidebar_post_detail.html' %}
+{% endblock %}

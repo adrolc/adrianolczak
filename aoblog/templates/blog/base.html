@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block head %}
+<link href="{% static 'blog/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_content %}
+
+<!-- Navbar -->
+{% include 'includes/navbar.html' %}
+
+{% block top %}
+<!-- content under navbar -->
+{% endblock %}
+
+<main class="main-content">
+  <div class="container">
+      <div class="row g-4">
+          <div class="col-12 col-md-9">
+            {% block content %}
+            <!-- content -->
+            {% endblock %}
+          </div>
+          <!-- Sidebar -->
+          <div class="col-12 col-md-3">
+            {% block sidebar %}
+            <!-- sidebar -->
+            {% endblock %}
+          </div>
+      </div>
+  </div>
+</main>
+ 
+<!-- Footer -->
+{% include 'includes/footer.html' %}
+
+
+{% endblock %}
+
+
+
