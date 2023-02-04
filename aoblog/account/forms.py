@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
 from .models import Profile
 
 # Login
@@ -55,15 +55,59 @@ class ResetPasswordForm(PasswordResetForm):
 class SetNewPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={
         'class': 'form-control',
-        'id': 'register_password1',
+        'id': 'reset_password1',
     }))
     new_password2 = forms.CharField(label="Repeat password", widget=forms.PasswordInput(attrs={
         'class': 'form-control',
-        'id': 'register_password2',
+        'id': 'reset_password2',
     }))
 
-# Profile
+# Change password
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(label="Old password", widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'id': 'old_password',
+    }))
+    new_password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'id': 'change_password1',
+    }))
+    new_password2 = forms.CharField(label="Repeat password", widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'id': 'change_password2',
+    }))
+
+
+
+# User profile
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control', 'id': f'user_edit_{field}'})
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = self.instance
+        if not email:
+            raise forms.ValidationError("Email cannot be empty")
+        if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+            raise forms.ValidationError("Email already exists")
+        return email
+
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('photo',)
+        fields = ('photo', 'bio', 'website_link', 'github_link', 'twitter_link', 'instagram_link', 'facebook_link')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['bio'].widget = forms.Textarea()
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control', 'id': f'user_profile_edit_{field}'})
+        self.fields['photo'].widget.attrs.update({'class': 'form-control d-none'})
+        self.fields['bio'].widget.attrs.update({'rows': '4', 'maxlength': 150})

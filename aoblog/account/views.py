@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView
 from django.views.generic import View
 from django.urls import reverse_lazy
 from . import forms
 from .models import Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Login
 class UserLoginView(LoginView):
@@ -55,3 +56,47 @@ class UserPasswordResetConfirmView(PasswordResetConfirmView):
 class UserPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'account/pages/password_reset_complete.html'
 
+# Change password
+class UserPasswordChangeView(PasswordChangeView):
+    form_class = forms.ChangePasswordForm
+    success_url = reverse_lazy("account:password_change_done")
+    template_name = 'account/pages/password_change_form.html'
+
+class UserPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'account/pages/password_change_done.html'
+
+# User profile
+class UserProfileView(LoginRequiredMixin, View):
+    def common_function(self, request):
+        user = request.user
+        user_form = forms.UserEditForm(instance=user)
+        user_profile_form = forms.ProfileEditForm(data={
+            'bio': user.profile.bio,
+            'website_link': user.profile.website_link,
+            'github_link': user.profile.github_link,
+            'twitter_link': user.profile.twitter_link,
+            'instagram_link': user.profile.instagram_link,
+            'facebook_link': user.profile.facebook_link,
+        })
+        context = {
+            'user_form': user_form,
+            'user_profile_form': user_profile_form,
+        }
+        return context
+
+    def get(self, request):
+        context = self.common_function(request)
+        return render(request, 'account/pages/user_profile.html', context)
+    
+    def post(self, request):
+        user_form = forms.UserEditForm(instance=request.user, data=request.POST)
+        user_profile_form = forms.ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user_form.save()
+            user_profile_form.save()
+            context = self.common_function(request)
+            return render(request, 'account/pages/user_profile.html', context)
+        context = self.common_function(request)
+        context['user_form'] = user_form
+        return render(request, 'account/pages/user_profile.html', context)
