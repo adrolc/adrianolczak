@@ -24,3 +24,33 @@
     
     background: linear-gradient(to right, #09e3f4, #4788f9, #862cfe);
 }
+
+/* Change user photo */
+  .user-photo-container {
+    position: relative;
+  }
+  .user-photo-container > label {
+    transition: 0.2s;
+  }
+  .user-photo-container > label {
+    cursor: pointer;
+  }
+  .user-photo-container:hover label {
+  opacity: 0.75;
+}
+.user-photo-overlay > i{
+  font-size: 35px;
+}
+.user-photo-container:hover .user-photo-overlay {
+  opacity: 1;
+}
+  .user-photo-overlay {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  }
