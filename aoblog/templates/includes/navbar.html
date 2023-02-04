@@ -57,7 +57,7 @@
         >
           <p class="m-0 me-2">{{ user.username }}</p>
           <img
-            src="{{ user.profile.photo.url }}"
+            src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}https://www.seekpng.com/png/full/356-3562377_personal-user.png{% endif %}"
             class="rounded-circle"
             height="25"
             alt="Black and White Portrait of a Man"
@@ -69,7 +69,7 @@
           aria-labelledby="navbarDropdownMenuAvatar"
         >
           <li>
-            <a class="dropdown-item" href="#">My profile</a>
+            <a class="dropdown-item" href="{% url 'account:user_profile' %}">My profile</a>
           </li>
           <li>
             <a class="dropdown-item" href="#">Settings</a>

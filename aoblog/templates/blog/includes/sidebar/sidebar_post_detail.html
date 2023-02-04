@@ -1,91 +1,38 @@
-<div class="row gy-3">
-  
-  <div class="col-12">
-    <div class="card">
-        <div class="card-header text-center">
-          Share
-        </div>
-        <ul class="list-group list-group-flush text-center">
-          <li class="list-group-item">
-            <a href="{% url 'blog:post_share' post.id %}">
-              <i class="fa-solid fa-envelope fs-5"></i>
-            </a>
-          </li>
-          <li class="list-group-item">
-            <i class="fa-brands fa-facebook fs-5"></i>
-          </li>
-          <li class="list-group-item">
-            <i class="fa-brands fa-twitter fs-5"></i>
-          </li>
-        </ul>
-      </div>
-</div>
-<div class="col-12">
-  <div class="card">
-      <div class="card-header text-center">
-        NAJNOWSZE POSTY
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <img class="img-thumbnail" width="90" src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" />
-          <a href="#" class="text-decoration-none">How to lorem ipsum</a>
-        </li>
-        <li class="list-group-item">
-          <img class="img-thumbnail" width="90" src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" />
-          <a href="#" class="text-decoration-none">How to lorem ipsum</a>
-        </li>
-        <li class="list-group-item">
-          <img class="img-thumbnail" width="90" src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" />
-          <a href="#" class="text-decoration-none">How to lorem ipsum</a>
-        </li>
-      </ul>
+<!--Section: Sidebar-->
+<section class="sticky-top" style="top: 80px; z-index: 1019;">
+  <!--Section: Ad-->
+  <section class="text-center border-bottom pb-4 mb-4">
+    <div class="bg-image hover-overlay ripple mb-4">
+      <img
+        src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/content/en/_mdb5/standard/about/assets/mdb5-about.webp"
+        class="img-fluid" />
+      <a href="https://mdbootstrap.com/docs/standard/" target="_blank">
+        <div class="mask" style="background-color: rgba(57, 192, 237, 0.2);"></div>
+      </a>
     </div>
-</div>
-<div class="col-12">
-  <div class="card">
-      <div class="card-header text-center">
-        PODOBNE POSTY
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <img class="img-thumbnail" width="90" src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" />
-          <a href="#" class="text-decoration-none">How to lorem ipsum</a>
-        </li>
-        <li class="list-group-item">
-          <img class="img-thumbnail" width="90" src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" />
-          <a href="#" class="text-decoration-none">How to lorem ipsum</a>
-        </li>
-        <li class="list-group-item">
-          <img class="img-thumbnail" width="90" src="https://wakacjeamigos.pl/uploads/blog/retina_069aa0ba-4907-4c5c-b040-80c2ee6209d5.jpg" />
-          <a href="#" class="text-decoration-none">How to lorem ipsum</a>
-        </li>
-      </ul>
+    <a href="{% url 'blog:post_share' post.id %}">
+      <i class="fa-solid fa-envelope fs-5"></i>
+    </a>
+    <h5>Material Design for Bootstrap 5</h5>
+
+    <p>
+      500+ components, free templates, 1-min installation, extensive tutorial, huge
+      community. MIT license - free for personal & commercial use
+    </p>
+    <a role="button" class="btn btn-primary" href="https://mdbootstrap.com/docs/standard/"
+      target="_blank">Download for free<i class="fas fa-download ms-2"></i></a>
+  </section>
+  <!--Section: Ad-->
+
+  <!--Section: Video-->
+  <section class="text-center">
+    <h5 class="mb-4">Learn the newest Bootstrap 5</h5>
+
+    <div class="embed-responsive embed-responsive-16by9 shadow-4-strong">
+      <iframe class="embed-responsive-item rounded" src="https://www.youtube.com/embed/c9B4TPnak1A"
+        allowfullscreen></iframe>
     </div>
-</div>
-<div class="col-12">
-  <div class="card">
-      <div class="card-header text-center">
-        CATEGORIES
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="" class="text-decoration-none">Python</a>
-          <p class="m-0">(22)</p>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="" class="text-decoration-none">Frontend</a>
-          <p class="m-0">(12)</p>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="" class="text-decoration-none">Backend</a>
-          <p class="m-0">(34)</p>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="" class="text-decoration-none">Tools</a>
-          <p class="m-0">(7)</p>
-        </li>
-      </ul>
-    </div>
-</div>
-  </div>
-  
+  </section>
+  <!--Section: Video-->
+</section>
+<!--Section: Sidebar-->
