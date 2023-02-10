@@ -27,6 +27,12 @@ class EmailPostForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
+    body = forms.CharField(required=True, widget=forms.Textarea(attrs={
+        'class': 'form-control bg-white',
+        'id': 'comment_input',
+        'rows': '4',
+        'maxlength': 255,
+    }))
     class Meta:
         model = Comment
         fields = ['body']
