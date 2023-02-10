@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 class PublishedManager(models.Manager):
@@ -29,8 +30,9 @@ class Post(models.Model):
                               choices=Status.choices,
                               default=Status.DRAFT)
 
-    objects = models.Manager() # The default manager.
-    published = PublishedManager() # Our custom manager.
+    objects = models.Manager() # Default manager.
+    published = PublishedManager() # Custom manager.
+    tags = TaggableManager() # Taggit manager.
 
     class Meta:
         ordering = ['-publish']
@@ -54,7 +56,7 @@ class Comment(models.Model):
                              on_delete=models.CASCADE,
                              related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField()
+    body = models.TextField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)

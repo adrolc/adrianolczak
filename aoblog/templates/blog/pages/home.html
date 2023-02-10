@@ -39,6 +39,11 @@
                     <i class="fa-regular fa-heart fs-5"></i>
                   </div>
                 </div>
+                <div class="post-tags mt-2">
+                  {% for tag in post.tags.all %}
+                  <a href="{% url 'blog:post_list_by_tag' tag_slug=tag.slug %}" class="badge badge-dark">{{ tag.name }}</a>
+                  {% endfor %}
+                </div>
               </div>
             </div>
           </div>

@@ -5,15 +5,21 @@ from django.views.generic import ListView, View
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from django.core.cache import cache
+from django.db.models import Count
 
 class PostListView(ListView):
-    """
-    Alternative post list view
-    """
     queryset = Post.published.all()
     context_object_name = 'posts'
     paginate_by = 6
     template_name = 'blog/pages/home.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        tag_slug = self.kwargs.get('tag_slug')
+        if tag_slug:
+            queryset = queryset.filter(tags__slug=tag_slug)
+        return queryset
+
 
 def post_detail(request, year, month, day, post_slug):
     post = get_object_or_404(Post,
@@ -42,8 +48,15 @@ def post_detail(request, year, month, day, post_slug):
     else:
         comment_form = CommentForm()
 
+    # List of similar posts
+    # similar_posts = post.tags.similar_objects()[:3]
+    post_tags_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:3]
+
     context = {
         'post': post,
+        'similar_posts': similar_posts,
         'comments': comments,
         'comment_form': comment_form,
         'cannot_comment': cannot_comment,
