@@ -1,0 +1,31 @@
+{% for post in posts %}
+<div class="col-lg-6 col-xxl-4 mb-4">
+    <div class="card">
+        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+            <img src="{{ post.photo.url }}" class="img-fluid" />
+            <a href="#!">
+            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+            </a>
+        </div>
+        <div class="card-body text-start">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.body|truncatechars:100|linebreaks }}</p>
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary">READ MORE</a>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="d-flex gap-2 align-items-center">
+                    <i class="fa-regular fa-calendar-days text-muted"></i>
+                    <p class="text-muted m-0" style="font-size:13px">{{ post.publish|date:"d/m/Y" }}</p>
+                </div>
+                <div class="favorite">
+                    <i class="fa-regular fa-heart fs-5"></i>
+                </div>
+            </div>
+            <div class="post-tags mt-2">
+            {% for tag in post.tags.all %}
+            <a href="{% url 'blog:post_list_by_tag' tag_slug=tag.slug %}" class="badge badge-primary">{{ tag.name }}</a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

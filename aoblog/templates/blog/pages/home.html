@@ -1,4 +1,6 @@
 {% extends 'blog/base.html' %}
+
+{% load blog_tags %}
 {% load static %}
 
 {% block title %}My Blog{% endblock %}
@@ -6,48 +8,30 @@
 {% block top %}
 <!-- Header -->
 {% include 'blog/includes/header.html' %}
-<!-- Search nav -->
-{% include 'blog/includes/post_list_nav.html' %}
+<!-- Search -->
+<div class="post-list-nav my-5">
+  <div class="container">
+    <div class="input-group" style="max-width: 300px">
+      <div class="form-outline">
+        <input type="search" id="form1" class="form-control" />
+        <label class="form-label" for="form1">Search</label>
+      </div>
+      <button type="button" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
 
       <!--Section: Content-->
       <section class="text-center">
-        <h4 class="mb-5"><strong>Latest posts</strong></h4>
-
+        <h4 class="mb-5"><strong>Latest posts ({% total_posts %})</strong></h4>
         <div class="row">
-          {% for post in posts %}
-          <div class="col-lg-6 col-xxl-4 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body text-start">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.body|truncatechars:120|linebreaks }}</p>
-                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">READ MORE</a>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <div class="d-flex gap-2 align-items-center">
-                    <i class="fa-regular fa-calendar-days text-muted"></i>
-                    <p class="text-muted m-0" style="font-size:13px">{{ post.publish|date:"d/m/Y" }}</p>
-                  </div>
-                  <div class="favorite">
-                    <i class="fa-regular fa-heart fs-5"></i>
-                  </div>
-                </div>
-                <div class="post-tags mt-2">
-                  {% for tag in post.tags.all %}
-                  <a href="{% url 'blog:post_list_by_tag' tag_slug=tag.slug %}" class="badge badge-dark">{{ tag.name }}</a>
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
+          {% include "blog/includes/post_card.html" with posts=posts %}
+        </div>
       </section>
       <!--Section: Content-->
 

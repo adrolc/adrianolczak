@@ -1,3 +1,4 @@
+          {% load blog_tags %}
           <!--Section: Sidebar-->
           <section class="sticky-top" style="top: 80px; z-index: 1019;">
             <!--Section: Ad-->
@@ -21,15 +22,42 @@
             </section>
             <!--Section: Ad-->
 
-            <!--Section: Video-->
-            <section class="text-center">
-              <h5 class="mb-4">Learn the newest Bootstrap 5</h5>
-
-              <div class="embed-responsive embed-responsive-16by9 shadow-4-strong">
-                <iframe class="embed-responsive-item rounded" src="https://www.youtube.com/embed/c9B4TPnak1A"
-                  allowfullscreen></iframe>
+            <!--Section: Social media-->
+            <section class="border-bottom pb-4 mb-4">
+              <h5 class="mb-4 text-center">Social media</h5>
+              <div class="d-flex gap-2 justify-content-center flex-wrap">
+                <a href="#" class="btn btn-primary px-3 me-1" style="background-color: #3b5998;">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-primary px-3 me-1" style="background-color: #55acee;">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-primary px-3 me-1" style="background-color: #0082ca;">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="btn btn-primary px-3 me-1" style="background-color: #333;">
+                  <i class="fab fa-github"></i>
+                </a>
+                
               </div>
             </section>
-            <!--Section: Video-->
+            <!--Section: Social media-->
+
+            <!--Section: Tags-->
+            <section class="border-bottom pb-4 mb-4">
+              <h5 class="mb-4 text-center">Tags</h5>
+              <div class="d-flex gap-1 flex-wrap">
+                {% show_tags %}
+              </div>
+            </section>
+            <!--Section: Tags-->
+
+            <!--Section: Latest posts-->
+            <section class="border-bottom pb-4 mb-4">
+              <h5 class="mb-4 text-center">Latest posts</h5>
+              {% show_latest_posts 3 %}
+            </section>
+            <!--Section: Latest posts-->
+            
           </section>
           <!--Section: Sidebar-->

@@ -1,16 +1,24 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load blog_tags %}
 
-{% block title %}My Blog{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
-{% block top %}
-{% include 'blog/includes/breadcrumb.html' %}
+{% block head %}
+<link href="{% static 'global/prism/dark2/prism.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/custom.css' %}" rel="stylesheet">
+
+<meta property="og:title" content="{{ post.title }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:image" content="{% if post.photo %}{{ post.photo.url }}{% endif %}">
+<meta property="og:description" content="{{ post.body|truncatechars:150 }}">
+<meta property="og:site_name" content="Tech Blog - adrianolczak.pl">
 {% endblock %}
 
 {% block content %}
 
-  <!--Main layout-->
-  
+  <!--Main-->
   <main class="mt-4 mb-5">
     <div class="container">
       <!--Grid row-->
@@ -19,82 +27,37 @@
         <div class=" mb-4">
           <!--Section: Post data-mdb-->
           <section class="border-bottom mb-4">
-            <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg"
+            <img src="{{ post.photo.url }}"
               class="img-fluid shadow-2-strong rounded mb-4" alt="" />
-              <h1 class="mb-0 h4 pt-3 pb-5 text-center">This is a long title of the article</h1>
+              {% for tag in post.tags.all %}
+              <a href="{% url 'blog:post_list_by_tag' tag_slug=tag.slug %}" class="badge badge-primary">{{ tag.name }}</a>
+              {% endfor %}
+              <h1 class="mb-0 h4 pt-3 pb-5 text-center">{{ post.title }}</h1>
             <div class="row align-items-center mb-4">
               <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
-                <img src="https://mdbootstrap.com/img/Photos/Avatars/img (23).jpg" class="rounded shadow-1-strong me-2"
+                <img src="{{ post.author.profile.photo.url }}" class="rounded shadow-1-strong me-2"
                   height="35" alt="" loading="lazy" />
-                <span> Published <u>15.07.2020</u> by</span>
-                <a href="" class="text-dark">Anna Maria Doe</a>
+                <span> Published <u><time datetime='{{ post.publish|date:"d-m-Y" }}'>{{ post.publish|date:"d.m.Y" }}</time></u> by</span>
+                <span class="text-dark">{{ post.author.get_full_name}}</span>
               </div>
 
               <div class="col-lg-6 text-center text-lg-end">
-                <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #3b5998;">
-                  <i class="fab fa-facebook-f"></i>
-                </button>
-                <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #55acee;">
-                  <i class="fab fa-twitter"></i>
-                </button>
-                <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #0082ca;">
-                  <i class="fab fa-linkedin"></i>
-                </button>
-                <button type="button" class="btn btn-primary px-3 me-1">
+                {% if post.github_link %}
+                <a href="{{ post.github_link }}" target="_blank" class="btn btn-primary px-3 me-1" style="background-color: #333;">
+                  <i class="fab fa-github"></i>
+                </a>
+                {% endif %}
+                <a href="#comment_input" class="btn btn-primary px-3 me-1">
                   <i class="fas fa-comments"></i>
-                </button>
+                </a>
               </div>
             </div>
           </section>
-          <!--Section: Post data-mdb-->
+          <!--Section: Post data-->
 
           <!--Section: Text-->
           <section>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio sapiente molestias
-              consectetur. Fuga nulla officia error placeat veniam, officiis rerum laboriosam
-              ullam molestiae magni velit laborum itaque minima doloribus eligendi! Lorem ipsum,
-              dolor sit amet consectetur adipisicing elit. Optio sapiente molestias consectetur.
-              Fuga nulla officia error placeat veniam, officiis rerum laboriosam ullam molestiae
-              magni velit laborum itaque minima doloribus eligendi!
-            </p>
-
-            <p><strong>Optio sapiente molestias consectetur?</strong></p>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum architecto ex ab aut
-              tempora officia libero praesentium, sint id magnam eius natus unde blanditiis. Autem
-              adipisci totam sit consequuntur eligendi.
-            </p>
-
-            <p class="note note-light">
-              <strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Optio odit consequatur porro sequi ab distinctio modi. Rerum cum dolores sint,
-              adipisci ad veritatis laborum eaque illum saepe mollitia ut voluptatum.
-            </p>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, libero repellat
-              molestiae aperiam laborum aliquid atque magni nostrum, inventore perspiciatis
-              possimus quia incidunt maiores molestias eaque nam commodi! Magnam, labore.
-            </p>
-
-            <img src="https://mdbootstrap.com/img/new/slides/041.jpg" class="img-fluid shadow-1-strong rounded mb-4"
-              alt="" />
-
-            <ul>
-              <li>Lorem</li>
-              <li>Ipsum</li>
-              <li>Dolor</li>
-              <li>Sit</li>
-              <li>Amet</li>
-            </ul>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, temporibus nulla
-              voluptatibus accusantium sapiente doloremque. Doloribus ratione laboriosam culpa. Ab
-              officiis quidem, debitis nostrum in accusantium dolore veritatis eius est?
-            </p>
+            {{ post.body|markdown }}
           </section>
           <!--Section: Text-->
 
@@ -102,61 +65,31 @@
           <section class="text-center border-top border-bottom py-4 mb-4">
             <p><strong>Share with your friends:</strong></p>
 
-            <button type="button" class="btn btn-primary me-1" style="background-color: #3b5998;">
+            <a  href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" type="button" class="btn btn-primary me-1" style="background-color: #3b5998;">
               <i class="fab fa-facebook-f"></i>
-            </button>
-            <button type="button" class="btn btn-primary me-1" style="background-color: #55acee;">
+            </a>
+            <a href="https://twitter.com/intent/tweet?text={{ post.title }}&url={{ request.build_absolute_uri }}" target="_blank" type="button" class="btn btn-primary me-1" style="background-color: #55acee;">
               <i class="fab fa-twitter"></i>
-            </button>
-            <button type="button" class="btn btn-primary me-1" style="background-color: #0082ca;">
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" type="button" class="btn btn-primary me-1" style="background-color: #0082ca;">
               <i class="fab fa-linkedin"></i>
-            </button>
+            </a>
+            <a href="{% url 'blog:post_share' post.id %}" class="btn btn-primary me-1" style="background-color: #0082ca;">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
           </section>
           <!--Section: Share buttons-->
 
-        <!--Section: List of similar posts-->
+      <!--Section: List of similar posts-->
       <section class="text-center">
-        <h4 class="mb-5"><strong>Similar posts</strong></h4>
-
+        <h4 class="mb-5"><strong>Podobne posty</strong></h4>
         <div class="row">
-          {% for post in similar_posts %}
-          <div class="col-lg-6 col-xxl-4 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body text-start">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.body|truncatechars:100|linebreaks }}</p>
-                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">READ MORE</a>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <div class="d-flex gap-2 align-items-center">
-                    <i class="fa-regular fa-calendar-days text-muted"></i>
-                    <p class="text-muted m-0" style="font-size:13px">{{ post.publish|date:"d/m/Y" }}</p>
-                  </div>
-                  <div class="favorite">
-                    <i class="fa-regular fa-heart fs-5"></i>
-                  </div>
-                </div>
-                <div class="post-tags mt-2">
-                  {% for tag in post.tags.all %}
-                  <a href="{% url 'blog:post_list_by_tag' tag_slug=tag.slug %}" class="badge badge-dark">{{ tag.name }}</a>
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
-          </div>
-          {% empty %}
-            <p>There are no similar posts yet.</p>
-          {% endfor %}
+          {% include "blog/includes/post_card.html" with posts=similar_posts %}
+        </div>
       </section>
       <!--Section: List of similar posts-->
 
           <!--Section: Comments-->
-            
             <section>
               <div class="container my-5">
               <p class=""><strong>{{ comments.count|pluralize:"comment,comments" }}: {{ comments.count }}</strong></p>
@@ -222,10 +155,13 @@
       <!--Grid row-->
     </div>
   </main>
-  <!--Main layout-->
-
+  <!--Main-->
 {% endblock %}
 
 {% block sidebar %}
-{% include 'blog/includes/sidebar/sidebar_post_detail.html' %}
+{% include 'blog/includes/sidebar/sidebar_home.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'global/prism/dark2/prism.js' %}"></script>
 {% endblock %}
