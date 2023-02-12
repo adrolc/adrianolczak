@@ -3,6 +3,19 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from django.core.files.storage import default_storage
+
+
+def post_directory_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{instance.id}_post_photo.{ext}"
+
+    filepath = 'posts/{0}'.format(filename)
+
+    if default_storage.exists(filepath):
+        default_storage.delete(filepath)
+    
+    return filepath
 
 
 class PublishedManager(models.Manager):
@@ -22,7 +35,9 @@ class Post(models.Model):
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
                                related_name='blog_posts')
+    photo = models.ImageField(upload_to=post_directory_path)
     body = models.TextField()
+    github_link = models.URLField(blank=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
