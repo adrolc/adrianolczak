@@ -20,6 +20,14 @@ class PostListView(ListView):
             queryset = queryset.filter(tags__slug=tag_slug)
         return queryset
 
+def _can_comment(request, limit=5):
+    "Comment limit per hour"
+    user_ip = request.META['REMOTE_ADDR']
+    comment_count = cache.get(user_ip, 0) + 1
+    if comment_count <= limit:
+        cache.set(user_ip, comment_count, 3600)
+        return True
+    return False
 
 def post_detail(request, year, month, day, post_slug):
     post = get_object_or_404(Post,
@@ -30,23 +38,35 @@ def post_detail(request, year, month, day, post_slug):
     publish__day=day)
 
     comments = post.comments.filter(active=True)
-    cannot_comment = False
+    can_comment = _can_comment(request)
     comment_form = None
     if request.method == 'POST' and request.user.is_authenticated:
-        user_ip = request.META['REMOTE_ADDR']
-        comment_count = cache.get(user_ip, 0) + 1
-        if comment_count <= 5:
-            cache.set(user_ip, comment_count, 3600)
+        if can_comment:
             comment_form = CommentForm(data=request.POST)
             if comment_form.is_valid():
                 new_comment = comment_form.save(commit=False)
                 new_comment.post = post
                 new_comment.user = request.user
                 new_comment.save()
-        else:
-            cannot_comment = True
-    else:
-        comment_form = CommentForm()
+                comment_form = CommentForm()
+
+    if can_comment:
+            comment_form = CommentForm()
+
+    # Share post via email
+    share_form = EmailPostForm()
+    share_form_sent = 'false'
+    if request.method == 'POST':
+        share_form = EmailPostForm(request.POST)
+        if share_form.is_valid():
+            cd = share_form.cleaned_data
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = f"{cd['name']} recommends you read " \
+                    f"{post.title}"
+            message = f"Read {post.title} at {post_url}\n\n" \
+                    f"{cd['name']}\'s comments: {cd['comments']}"
+            send_mail(subject, message, 'your_account@gmail.com', [cd['to']])
+            share_form_sent ='true'
 
     # List of similar posts
     # similar_posts = post.tags.similar_objects()[:3]
@@ -59,28 +79,8 @@ def post_detail(request, year, month, day, post_slug):
         'similar_posts': similar_posts,
         'comments': comments,
         'comment_form': comment_form,
-        'cannot_comment': cannot_comment,
+        'can_comment': can_comment,
+        'share_form': share_form,
+        'share_form_sent': share_form_sent,
     }
     return render(request, 'blog/pages/post_detail.html', context)
-
-class PostShareView(View):
-    def get(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
-        form = EmailPostForm()
-        return render(request, 'blog/pages/post_share.html', {'post': post, 'form': form})
-    
-    def post(self, request, post_id):
-            post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
-            form = EmailPostForm(request.POST)
-            sent = False
-            if form.is_valid():
-                cd = form.cleaned_data
-                post_url = request.build_absolute_uri(post.get_absolute_url())
-                subject = f"{cd['name']} recommends you read " \
-                        f"{post.title}"
-                message = f"Read {post.title} at {post_url}\n\n" \
-                        f"{cd['name']}\'s comments: {cd['comments']}"
-                send_mail(subject, message, 'your_account@gmail.com', [cd['to']])
-                sent = True
-
-            return render(request, 'blog/pages/post_share.html', {'post': post, 'form': form, 'sent': sent})
