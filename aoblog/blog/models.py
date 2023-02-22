@@ -4,16 +4,18 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
 from django.core.files.storage import default_storage
-
+from django.utils.crypto import get_random_string
 
 def post_directory_path(instance, filename):
     ext = filename.split('.')[-1]
-    filename = f"{instance.id}_post_photo.{ext}"
+    random_value = get_random_string(length=10)
+    filename = f"photo_{random_value}.{ext}"
+    filepath = f'posts/{filename}'
 
-    filepath = 'posts/{0}'.format(filename)
-
-    if default_storage.exists(filepath):
-        default_storage.delete(filepath)
+    while default_storage.exists(filepath):
+        random_value = get_random_string(length=10)
+        filename = f"photo_{random_value}.{ext}"
+        filepath = f'posts/{filename}'
     
     return filepath
 
