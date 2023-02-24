@@ -57,10 +57,10 @@
         >
           <p class="m-0 me-2">{{ user.username }}</p>
           <img
-            src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}https://www.seekpng.com/png/full/356-3562377_personal-user.png{% endif %}"
+            src="{{ user.profile.photo.url }}"
             class="rounded-circle"
             height="25"
-            alt="Black and White Portrait of a Man"
+            alt="User photo"
             loading="lazy"
             />
         </a>
