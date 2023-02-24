@@ -30,7 +30,7 @@ class UserRegisterView(View):
             new_user = register_form.save()
             # Create user profile
             Profile.objects.create(user=new_user)
-            return render(request, 'account/pages/register_done.html', {'user': new_user})
+            return render(request, 'account/pages/register_done.html')
         return render(request, 'account/pages/register.html', {'form': register_form})
 
 
