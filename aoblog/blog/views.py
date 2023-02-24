@@ -2,10 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import Post, Comment
 from django.views.generic import ListView, View
-from .forms import EmailPostForm, CommentForm
+from .forms import EmailPostForm, CommentForm, SearchForm
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.db.models import Count
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 class PostListView(ListView):
     queryset = Post.published.all()
@@ -14,11 +15,28 @@ class PostListView(ListView):
     template_name = 'blog/pages/home.html'
 
     def get_queryset(self):
+        self.list_name = 'Wszystkie posty'
         queryset = super().get_queryset()
         tag_slug = self.kwargs.get('tag_slug')
+        query = self.request.GET.get('query')
         if tag_slug:
             queryset = queryset.filter(tags__slug=tag_slug)
+            self.list_name = f"Wyniki dla tagu: {tag_slug}"
+        if query:
+            form = SearchForm(self.request.GET)
+            if form.is_valid():
+                query = form.cleaned_data['query']
+                search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
+                search_query = SearchQuery(query)
+                queryset = queryset.annotate(rank=SearchRank(search_vector, search_query)).filter(rank__gte=0.1).order_by('-rank')
+                self.list_name = f"Wyniki dla '{query}' z tagiem: {tag_slug}" if tag_slug else f"Wyniki dla '{query}'"
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = SearchForm()
+        context['list_name'] = self.list_name
+        return context
 
 def _can_comment(request, limit=5):
     "Comment limit per hour"
@@ -51,7 +69,7 @@ def post_detail(request, year, month, day, post_slug):
                 comment_form = CommentForm()
 
     if can_comment:
-            comment_form = CommentForm()
+        comment_form = CommentForm()
 
     # Share post via email
     share_form = EmailPostForm()
