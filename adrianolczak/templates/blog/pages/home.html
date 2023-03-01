@@ -7,7 +7,7 @@
 
 {% block top %}
 <!-- Header -->
-{% include 'blog/includes/header.html' %}
+{% include 'blog/includes/header.html' with latest_post=posts|first %}
 <!-- Search form -->
 <div class="post-list-nav my-5">
   <div class="container">
@@ -29,7 +29,7 @@
 {% block content %}
 
       <!--Section: Content-->
-      <section class="text-center">
+      <section id="posts" class="text-center">
         <h4 class="mb-5"><strong>{{ list_name }} ({{ posts.count }})</strong></h4>
         <div class="row">
           {% include "blog/includes/post_card.html" with posts=posts %}
