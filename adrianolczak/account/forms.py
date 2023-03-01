@@ -23,7 +23,7 @@ class RegisterForm(UserCreationForm):
     }))
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'class': 'form-control',
-        'id': 'register_username',
+        'id': 'register_email',
     }))
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={
         'class': 'form-control',
@@ -79,7 +79,7 @@ class ChangePasswordForm(PasswordChangeForm):
 
 
 
-# User profile
+# Edit User/Profile
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
