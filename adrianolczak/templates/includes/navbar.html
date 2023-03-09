@@ -31,13 +31,13 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
+          <a class="nav-link" href="{% url 'homepage:home' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Favorite</a>
+          <a class="nav-link" href="{% url 'homepage:home' %}#about">About me</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="{% url 'homepage:home' %}">Contact</a>
         </li>
       </ul>
       <!-- Left links -->
@@ -72,10 +72,7 @@
             <a class="dropdown-item" href="{% url 'account:user_profile' %}">My profile</a>
           </li>
           <li>
-            <a class="dropdown-item" href="#">Settings</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a>
+            <a class="dropdown-item" href="{% url 'account:logout' %}?next={{ request.path }}">Logout</a>
           </li>
         </ul>
       </div>
