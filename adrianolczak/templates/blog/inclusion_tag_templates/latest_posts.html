@@ -1,8 +1,8 @@
 {% for post in latest_posts %}
 <div class="side_bar-latest_posts d-flex align-items-center gap-2 mb-3">
     <img
-      src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
-      alt="Trendy Pants and Shoes"
+      src="{{ post.photo.url }}"
+      alt="{{ post.title }}"
       class="img-fluid"
       width="110"
     />
