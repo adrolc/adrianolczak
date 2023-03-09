@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .models import Post, Comment
+from .models import Post
 from django.views.generic import ListView, View
 from .forms import EmailPostForm, CommentForm, SearchForm
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.db.models import Count
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from datetime import date
 
+# === Post list ===
 class PostListView(ListView):
     queryset = Post.published.all()
     context_object_name = 'posts'
@@ -38,39 +39,46 @@ class PostListView(ListView):
         context['list_name'] = self.list_name
         return context
 
-def _can_comment(request, limit=5):
-    "Comment limit per hour"
-    user_ip = request.META['REMOTE_ADDR']
-    comment_count = cache.get(user_ip, 0) + 1
-    if comment_count <= limit:
-        cache.set(user_ip, comment_count, 3600)
-        return True
-    return False
+# === Post detail ===
+def _can_comment_within_hour(request, limit=5):
+    """Check if user can comment.
+    Limit means the maximum number of comments per hour
+    """
+    if not request.user.is_authenticated:
+        return False
+    
+    key = f'comments:{request.user.id}'
+    count = cache.get_or_set(key, 0, 3600)
+    if count >= limit:
+        return False
+    
+    return True
+
+def _comment_incr(key):
+    cache.incr(key)
 
 def post_detail(request, year, month, day, post_slug):
     post = get_object_or_404(Post,
     slug=post_slug,
     status=Post.Status.PUBLISHED,
-    publish__year=year,
-    publish__month=month,
-    publish__day=day)
+    publish__date=date(year, month, day)
+    )
 
     comments = post.comments.filter(active=True)
-    can_comment = _can_comment(request)
+    can_comment = _can_comment_within_hour(request)
     comment_form = None
-    if request.method == 'POST' and request.user.is_authenticated:
-        if can_comment:
+        
+    if can_comment:
+        if request.method == 'POST':
             comment_form = CommentForm(data=request.POST)
             if comment_form.is_valid():
                 new_comment = comment_form.save(commit=False)
                 new_comment.post = post
                 new_comment.user = request.user
                 new_comment.save()
-                comment_form = CommentForm()
-
-    if can_comment:
+                _comment_incr(f'comments:{request.user.id}')
         comment_form = CommentForm()
-
+    
     # Share post via email
     share_form = EmailPostForm()
     share_form_sent = 'false'
@@ -97,7 +105,6 @@ def post_detail(request, year, month, day, post_slug):
         'similar_posts': similar_posts,
         'comments': comments,
         'comment_form': comment_form,
-        'can_comment': can_comment,
         'share_form': share_form,
         'share_form_sent': share_form_sent,
     }

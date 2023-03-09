@@ -137,7 +137,7 @@
                 
                 <hr class="hr hr-blurry" />
                 {% if user.is_authenticated %}
-                {% if not can_comment %}
+                {% if not comment_form %}
                 <div class="alert alert-danger" role="alert">
                   You comment too fast. Please slow down.
                 </div>
