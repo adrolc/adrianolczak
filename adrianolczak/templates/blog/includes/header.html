@@ -24,13 +24,13 @@
                   href="{{ latest_post.get_absolute_url }}"
                   role="button"
                   rel="nofollow"
-                  >Ostatni post</a
+                  >Recent post</a
                 >
                 <a
                   class="btn btn-outline-light btn-lg m-2"
                   href="{% url 'blog:home' %}#posts"
                   role="button"
-                  >Najnowsze posty</a
+                  >Latest posts</a
                 >
               </div>
             </div>
@@ -47,7 +47,7 @@
                 class="btn btn-outline-light btn-lg m-2"
                 href="{% url 'blog:post_list_by_tag' tag_slug='AI' %}"
                 role="button"
-                >Zobacz posty</a
+                >View posts</a
               >
               </div>
             </div>
@@ -64,7 +64,7 @@
                   class="btn btn-outline-light btn-lg m-2"
                   href="{% url 'blog:post_list_by_tag' tag_slug='web' %}"
                   role="button"
-                  >Zobacz posty</a
+                  >View posts</a
                 >
               </div>
             </div>

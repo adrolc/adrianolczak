@@ -16,13 +16,13 @@ class PostListView(ListView):
     template_name = 'blog/pages/home.html'
 
     def get_queryset(self):
-        self.list_name = 'Wszystkie posty'
+        self.list_name = 'All posts'
         queryset = super().get_queryset()
         tag_slug = self.kwargs.get('tag_slug')
         query = self.request.GET.get('query')
         if tag_slug:
             queryset = queryset.filter(tags__slug=tag_slug)
-            self.list_name = f"Wyniki dla tagu: {tag_slug}"
+            self.list_name = f"Results for tag: {tag_slug}"
         if query:
             form = SearchForm(self.request.GET)
             if form.is_valid():
@@ -30,7 +30,7 @@ class PostListView(ListView):
                 search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
                 search_query = SearchQuery(query)
                 queryset = queryset.annotate(rank=SearchRank(search_vector, search_query)).filter(rank__gte=0.1).order_by('-rank')
-                self.list_name = f"Wyniki dla '{query}' z tagiem: {tag_slug}" if tag_slug else f"Wyniki dla '{query}'"
+                self.list_name = f"Results for '{query}' with tag: {tag_slug}" if tag_slug else f"Results for '{query}'"
         return queryset
 
     def get_context_data(self, **kwargs):

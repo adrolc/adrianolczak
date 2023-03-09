@@ -7,7 +7,7 @@
 
     <form action="." method="POST">
         {% csrf_token %}
-        <p>Please login to your account</p>
+        <p>Create a new account</p>
         {% for field in form %}
         {% for error in field.errors %}
         <small class="text-danger">{{ error }}</small>
