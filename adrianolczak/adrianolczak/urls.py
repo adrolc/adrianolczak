@@ -19,9 +19,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSitemap
+from homepage.sitemaps import HomepageSitemap
 
 sitemaps = {
     'posts': PostSitemap,
+    'homepage': HomepageSitemap,
 }
 
 urlpatterns = [
