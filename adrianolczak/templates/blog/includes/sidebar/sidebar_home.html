@@ -1,24 +1,21 @@
           {% load blog_tags %}
+          {% load static %}
           <!--Section: Sidebar-->
           <section class="sticky-top" style="top: 80px; z-index: 1019;">
             <!--Section: Ad-->
             <section class="text-center border-bottom pb-4 mb-4">
               <div class="bg-image hover-overlay ripple mb-4">
                 <img
-                  src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/content/en/_mdb5/standard/about/assets/mdb5-about.webp"
+                  src="{% static '/blog/img/place_for_ad.jpg' %}"
                   class="img-fluid" />
-                <a href="https://mdbootstrap.com/docs/standard/" target="_blank">
-                  <div class="mask" style="background-color: rgba(57, 192, 237, 0.2);"></div>
-                </a>
               </div>
-              <h5>Material Design for Bootstrap 5</h5>
+              <h5>Place for advertising</h5>
 
               <p>
-                500+ components, free templates, 1-min installation, extensive tutorial, huge
-                community. MIT license - free for personal & commercial use
+                Ad space available. Promote your brand today. Contact us for details.
               </p>
-              <a role="button" class="btn btn-primary" href="https://mdbootstrap.com/docs/standard/"
-                target="_blank">Download for free<i class="fas fa-download ms-2"></i></a>
+              <a role="button" class="btn btn-primary" href="{% url 'homepage:home' %}"
+                target="_blank">Contact<i class="fa-solid fa-message ms-2"></i></a>
             </section>
             <!--Section: Ad-->
 
