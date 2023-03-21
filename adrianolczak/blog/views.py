@@ -91,7 +91,7 @@ def post_detail(request, year, month, day, post_slug):
                     f"{post.title}"
             message = f"Read {post.title} at {post_url}\n\n" \
                     f"{cd['name']}\'s comments: {cd['comments']}"
-            send_mail(subject, message, 'your_account@gmail.com', [cd['to']])
+            send_mail(subject, message, 'blog@adrianolczak.pl', [cd['to']])
             share_form_sent ='true'
 
     # List of similar posts
