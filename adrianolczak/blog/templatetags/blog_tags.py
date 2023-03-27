@@ -29,4 +29,8 @@ def show_tags():
 
 @register.filter(name='markdown')
 def markdown_format(text):
-    return mark_safe(markdown.markdown(text, extensions=['markdown.extensions.fenced_code']))
+    return mark_safe(markdown.markdown(text, extensions=[
+        'markdown.extensions.fenced_code',
+        'markdown.extensions.extra',
+        'markdown.extensions.attr_list'
+    ]))
