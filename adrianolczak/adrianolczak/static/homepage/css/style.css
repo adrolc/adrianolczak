@@ -354,7 +354,7 @@ section {
   font-size: 24px;
   transition: all 0.4s;
   outline: none !important;
-  background-color: #08c6d4;
+  background-color: #4788f9;
   color: #fff;
   width: 40px;
   height: 40px;
@@ -398,7 +398,7 @@ section {
 .about .content ul i {
   font-size: 16px;
   margin-right: 5px;
-  color: #08c6d4;
+  color: #4788f9;
   line-height: 0;
 }
 

@@ -1,0 +1,121 @@
+@use '../sass-utils/vars';
+@use '../sass-utils/mixins';
+
+
+#hero {
+    width: 100%;
+    height: 100vh;
+    background: -webkit-linear-gradient(to top right, vars.$hero-gradient); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top right, vars.$hero-gradient);
+  
+    background-size: cover;
+    position: relative;
+    @include mixins.media(1024px){
+        background-attachment: fixed;
+    }
+  }
+
+  /* square animation */
+.hero-squares-container{
+    width:100%;
+    height:inherit;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    list-style-type:none;
+  }
+  .square {
+    position: absolute;
+    bottom: -50px;
+    background: vars.$hero-square-bg;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: backwards;
+    animation-name: squareAnimation;
+  }
+  
+  .square1 {
+    left: 25%
+  }
+  .square2 {
+    left: 30%
+  }
+  .square3 {
+    left: 40%
+  }
+  .square4 {
+    left: 50%
+  }
+  .square5 {
+    left: 60%
+  }
+  .square6 {
+    left: 70%
+  }
+  .square7 {
+    left: 80%
+  }
+  .square8 {
+    left: 90%
+  }
+  
+  @keyframes squareAnimation {
+    0% {
+      top: 100%;
+      transform: rotate(180deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+      
+    }
+    100% {
+      top: -50px;
+      opacity: 0;
+    }
+  }
+  
+  /* end square animation */
+  
+  #hero:before {
+    content: "";
+    background: rgba(45, 52, 54, 0.27);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+  
+  #hero .hero-container {
+    position: relative;
+    z-index: 2;
+    min-width: 300px;
+  }
+  
+  #hero h1 {
+    margin: 0 0 10px 0;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 56px;
+    color: vars.$color-white;
+    @include mixins.media(768px) {
+        font-size: 28px;
+        line-height: 36px;
+    }
+  }
+  
+  #hero p {
+    color: vars.$color-white;
+    margin-bottom: 50px;
+    font-size: 26px;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  #hero p span {
+    color: vars.$color-white;
+    padding-bottom: 4px;
+    letter-spacing: 1px;
+    border-bottom: 3px solid vars.$color-aqua;
+  }
