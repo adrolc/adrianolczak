@@ -5,20 +5,25 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from django.core.files.storage import default_storage
 from django.utils.crypto import get_random_string
+from pathlib import Path
 
-def post_directory_path(instance, filename):
+def post_thumbnail_upload_to(instance, filename):
     ext = filename.split('.')[-1]
     random_value = get_random_string(length=10)
-    filename = f"photo_{random_value}.{ext}"
-    filepath = f'posts/{filename}'
+    filename = f"{random_value}.{ext}"
+    filepath = Path('posts') / filename
 
     while default_storage.exists(filepath):
         random_value = get_random_string(length=10)
-        filename = f"photo_{random_value}.{ext}"
-        filepath = f'posts/{filename}'
+        filename = f"{random_value}.{ext}"
+        filepath = Path('posts') / filename
     
     return filepath
 
+def post_images_upload_to(instance, filename):
+    post_id = str(instance.post.id)
+    posts_path = Path('posts')
+    return posts_path / post_id / filename
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -37,7 +42,7 @@ class Post(models.Model):
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
                                related_name='blog_posts')
-    photo = models.ImageField(upload_to=post_directory_path)
+    photo = models.ImageField(upload_to=post_thumbnail_upload_to)
     body = models.TextField()
     github_link = models.URLField(blank=True)
     publish = models.DateTimeField(default=timezone.now)
@@ -67,6 +72,10 @@ class Post(models.Model):
                              self.publish.day,
                              self.slug])
                         
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to=post_images_upload_to)
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,
