@@ -42,3 +42,17 @@ section.post-content img {
     max-width: 100%;
     height: auto;
 }
+
+section.post-content p,
+section.post-content li,
+section.post-content a {
+    font-size: 18px;
+}
+
+section.post-content h1,
+section.post-content h2, 
+section.post-content h3, 
+section.post-content h4, 
+section.post-content h5 {
+    margin: 20px 0;
+}

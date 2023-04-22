@@ -34,7 +34,7 @@
               <h1 class="mb-0 h4 pt-3 pb-5 text-center">{{ post.title }}</h1>
             <div class="row align-items-center mb-4">
               <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
-                <img src="{{ post.author.profile.photo.url }}" class="rounded shadow-1-strong me-2"
+                <img src="{{ post.author.profile.photo.url }}" class="rounded me-2"
                   height="35" alt="" loading="lazy" />
                 <span> Published <u><time datetime='{{ post.publish|date:"d-m-Y" }}'>{{ post.publish|date:"d.m.Y" }}</time></u> by</span>
                 <span class="text-dark">{{ post.author.get_full_name}}</span>
@@ -121,7 +121,7 @@
                 {% for comment in comments %}
                 <div class="card-body">
                   <div class="d-flex flex-start align-items-center">
-                    <img class="rounded-circle shadow-1-strong me-3"
+                    <img class="rounded-circle me-3"
                     src="{{ comment.user.profile.photo.url }}" alt="avatar" width="60"
                     height="60" />
                     <div>
@@ -166,7 +166,7 @@
                 {% endif %}
                 {% else %}
                 <div class="d-flex align-items-center">
-                  <a href="{% url 'account:login' %}?next={{ request.path }}" class="btn btn-primary me-3 ao-gradient-1" style="width: 100px;">Log in</a> to add a comment
+                  <a href="{% url 'account:login' %}?next={{ request.path }}" class="btn btn-primary me-3 ao-gradient-1" style="width: 100px;">Log in</a> to comment
                 </div>
                 {% endif %}
               </div>
@@ -188,4 +188,5 @@
 
 {% block scripts %}
 <script src="{% static 'global/prism/dark2/prism.js' %}"></script>
+<script src="{% static 'blog/js/custom.js' %}"></script>
 {% endblock %}
