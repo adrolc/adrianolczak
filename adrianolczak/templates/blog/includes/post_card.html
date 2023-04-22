@@ -1,5 +1,5 @@
 {% for post in posts %}
-<div class="col-lg-6 col-xxl-4 mb-4">
+<div class="{{ col_settings }}">
     <div class="card">
         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
             <img src="{{ post.photo.url }}" class="img-fluid" />
