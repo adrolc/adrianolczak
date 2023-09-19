@@ -1,87 +1,69 @@
-
 <!--Main Navigation-->
 <header>
-    <!-- Carousel wrapper -->
-    <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" class="active"></li>
-        <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
-        <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
-      </ol>
+  <!-- Carousel wrapper -->
+  <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" class="active"></li>
+      <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
+      <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
+    </ol>
 
-      <!-- Inner -->
-      <div class="carousel-inner">
-        <!-- Single item -->
-        <div class="carousel-item active">
-          <div class="mask" style="background: linear-gradient(to top right, rgba(9, 227, 244, 0.7), rgba(71, 136, 249, 0.7), rgba(134, 44, 254, 0.7));">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-white text-center">
-                <h1 class="mb-3">Adrian Olczak - Tech blog</h1>
-                <h5 class="mb-4">Backend, Machine Learning, Data Analysis, IoT and more</h5>
-                <a
-                  class="btn btn-outline-light btn-lg m-2"
-                  href="{{ latest_post.get_absolute_url }}"
-                  role="button"
-                  rel="nofollow"
-                  >Recent post</a
-                >
-                <a
-                  class="btn btn-outline-light btn-lg m-2"
-                  href="{% url 'blog:home' %}#posts"
-                  role="button"
-                  >Latest posts</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Single item -->
-        <div class="carousel-item">
-          <div class="mask">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-white text-center">
-                <h2>Artificial Intelligence</h2>
-                <a
-                class="btn btn-outline-light btn-lg m-2"
-                href="{% url 'blog:post_list_by_tag' tag_slug='AI' %}"
-                role="button"
-                >View posts</a
-              >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Single item -->
-        <div class="carousel-item">
-          <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-white text-center">
-                <h2>Web Development</h2>
-                <a
-                  class="btn btn-outline-light btn-lg m-2"
-                  href="{% url 'blog:post_list_by_tag' tag_slug='web' %}"
-                  role="button"
-                  >View posts</a
-                >
-              </div>
+    <!-- Inner -->
+    <div class="carousel-inner">
+      <!-- Single item -->
+      <div class="carousel-item active">
+        <div class="mask">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white text-center">
+              <h1 class="mb-3">Adrian Olczak - Blog</h1>
+              <h5 class="mb-4">Backend, Machine Learning, Data Analysis, IoT and more</h5>
+              <a class="btn btn-outline-light btn-lg m-2" href="{{ latest_post.get_absolute_url }}" role="button"
+                rel="nofollow">Recent post</a>
+              <a class="btn btn-outline-light btn-lg m-2" href="{% url 'blog:home' %}#posts" role="button">Latest
+                posts</a>
             </div>
           </div>
         </div>
       </div>
-      <!-- Inner -->
 
-      <!-- Controls -->
-      <a class="carousel-control-prev" href="#introCarousel" role="button" data-mdb-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#introCarousel" role="button" data-mdb-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+      <!-- Single item -->
+      <div class="carousel-item">
+        <div class="mask">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white text-center">
+              <h2>Artificial Intelligence</h2>
+              <a class="btn btn-outline-light btn-lg m-2" href="{% url 'blog:post_list_by_tag' tag_slug='AI' %}"
+                role="button">View posts</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Single item -->
+      <div class="carousel-item">
+        <div class="mask">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white text-center">
+              <h2>Web Development</h2>
+              <a class="btn btn-outline-light btn-lg m-2" href="{% url 'blog:post_list_by_tag' tag_slug='web' %}"
+                role="button">View posts</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Carousel wrapper -->
-  </header>
+    <!-- Inner -->
+
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#introCarousel" role="button" data-mdb-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#introCarousel" role="button" data-mdb-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <!-- Carousel wrapper -->
+</header>

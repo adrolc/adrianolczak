@@ -7,20 +7,8 @@
     height: 100vh;
 }
 
-.carousel-item:nth-child(1) {
-    background-image: url('../img/header1.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-}
-.carousel-item:nth-child(2) {
-    background-image: url('../img/header2.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center right;
-}
-.carousel-item:nth-child(3) {
-    background-image: url('../img/header3.jpg');
+.carousel-item {
+    background-image: url('../img/header.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -30,13 +18,14 @@
     #introCarousel {
         margin-top: -58.59px;
     }
+
     #introCarousel,
     .carousel-inner,
     .carousel-item,
     .carousel-item.active {
         height: 50vh;
     }
-    }
+}
 
 section.post-content img {
     max-width: 100%;
@@ -50,9 +39,9 @@ section.post-content a {
 }
 
 section.post-content h1,
-section.post-content h2, 
-section.post-content h3, 
-section.post-content h4, 
+section.post-content h2,
+section.post-content h3,
+section.post-content h4,
 section.post-content h5 {
     margin: 20px 0;
 }
