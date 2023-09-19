@@ -1,0 +1,4 @@
+[MASTER]
+load-plugins=pylint_django
+django-settings-module=adrianolczak.settings
+disable=missing-module-docstring

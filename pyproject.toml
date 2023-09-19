@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "adrianolczak"
+version = "0.1.0"
+description = "Personal website"
+authors = ["Adrian Olczak <adrianolczakdev@gmail.com>"]
+readme = "README.md"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.5"
+django-taggit = "^4.0.0"
+markdown = "^3.4.4"
+pillow = "^10.0.1"
+psycopg2-binary = "^2.9.7"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.14.0"
+pytest-django = "^4.5.2"
+
+
+[tool.poetry.group.dev_local.dependencies]
+black = "^23.7.0"
+isort = "^5.12.0"
+mypy = "^1.5.0"
+pylint = "^2.17.5"
+django-stubs = "^4.2.3"
+pylint-django = "^2.5.3"
+
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+(
+/(
+    \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.nox
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+ignore_missing_imports = true
+strict = true
+mypy_path = "adrianolczak"
+
+[tool.django-stubs]
+django_settings_module = "adrianolczak.settings.local"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "adrianolczak.settings.local"
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-W ignore::DeprecationWarning -v"
