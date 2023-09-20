@@ -1,29 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils import timezone
-from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 from taggit.managers import TaggableManager
-from django.core.files.storage import default_storage
-from django.utils.crypto import get_random_string
-from pathlib import Path
 
-def post_thumbnail_upload_to(instance, filename):
-    ext = filename.split('.')[-1]
-    random_value = get_random_string(length=10)
-    filename = f"{random_value}.{ext}"
-    filepath = Path('posts') / filename
+from .storage import OverwriteStorage, post_content_images_path, post_image_path
 
-    while default_storage.exists(filepath):
-        random_value = get_random_string(length=10)
-        filename = f"{random_value}.{ext}"
-        filepath = Path('posts') / filename
-    
-    return filepath
+User = get_user_model()
 
-def post_images_upload_to(instance, filename):
-    post_id = str(instance.post.id)
-    posts_path = Path('posts')
-    return posts_path / post_id / filename
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -31,47 +15,40 @@ class PublishedManager(models.Manager):
 
 
 class Post(models.Model):
-
     class Status(models.TextChoices):
-        DRAFT = 'DF', 'Draft'
-        PUBLISHED = 'PB', 'Published'
+        DRAFT = "DF", "Draft"
+        PUBLISHED = "PB", "Published"
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250,
-                            unique_for_date='publish')
-    author = models.ForeignKey(User,
-                               on_delete=models.CASCADE,
-                               related_name='blog_posts')
-    photo = models.ImageField(upload_to=post_thumbnail_upload_to)
+    slug = models.SlugField(max_length=250, unique_for_date="publish")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    photo = models.ImageField(upload_to=post_image_path, storage=OverwriteStorage())
     body = models.TextField()
     github_link = models.URLField(blank=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=2,
-                              choices=Status.choices,
-                              default=Status.DRAFT)
+    status = models.CharField(
+        max_length=2, choices=Status.choices, default=Status.DRAFT
+    )
 
-    objects = models.Manager() # Default manager.
-    published = PublishedManager() # Custom manager.
-    tags = TaggableManager() # Taggit manager.
+    objects = models.Manager()  # Default manager.
+    published = PublishedManager()  # published manager (internal).
+    tags = TaggableManager()  # Taggit manager (external).
 
     class Meta:
-        ordering = ['-publish']
+        ordering = ["-publish"]
         indexes = [
-            models.Index(fields=['-publish']),
+            models.Index(fields=["-publish"]),
         ]
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail',
-                       args=[self.publish.year,
-                             self.publish.month,
-                             self.publish.day,
-                             self.slug])
-                        
+        return reverse("blog:post_detail", args=[self.slug])
+
+
 class PostImage(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to=post_images_upload_to)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to=post_content_images_path)
