@@ -13,25 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from django.conf.urls.static import static
-from django.conf import settings
-from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSitemap
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
 from homepage.sitemaps import HomepageSitemap
 
 sitemaps = {
-    'posts': PostSitemap,
-    'homepage': HomepageSitemap,
+    "posts": PostSitemap,
+    "homepage": HomepageSitemap,
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('account/', include('account.urls', namespace='account')),
-    path('', include('homepage.urls', namespace='homepage')),
-    path('blog/', include('blog.urls', namespace='blog')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
+    path("admin/", admin.site.urls),
+    path("", include("homepage.urls", namespace="homepage")),
+    path("blog/", include("blog.urls", namespace="blog")),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]
 
 if settings.DEBUG:
