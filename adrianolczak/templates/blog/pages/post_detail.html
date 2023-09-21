@@ -121,6 +121,7 @@
         <!--Section: Comments-->
         <section>
           <div class="container my-5">
+            {% include "blog/includes/disqus.html" with post=post domain=domain%}
           </div>
         </section>
         <!--Section: Comments-->
@@ -140,4 +141,5 @@
 {% block scripts %}
 <script src="{% static 'global/prism/dark2/prism.js' %}"></script>
 <script src="{% static 'blog/js/custom.js' %}"></script>
+<script id="dsq-count-scr" src="//adrianolczak.disqus.com/count.js" async></script>
 {% endblock %}

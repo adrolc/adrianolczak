@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.db.models import Count
@@ -85,5 +86,6 @@ def post_detail(request, post_slug):
         "similar_posts": similar_posts,
         "share_form": share_form,
         "share_form_sent": share_form_sent,
+        "domain": get_current_site(request).domain,
     }
     return render(request, "blog/pages/post_detail.html", context)
