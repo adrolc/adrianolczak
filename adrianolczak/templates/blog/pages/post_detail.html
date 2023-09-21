@@ -76,36 +76,6 @@
             class="btn btn-primary me-1" style="background-color: #0082ca;">
             <i class="fab fa-linkedin"></i>
           </a>
-          <button type="button" class="btn btn-primary me-1" style="background-color: #3e65cf;" data-mdb-toggle="modal"
-            data-mdb-target="#staticBackdrop1">
-            <i class="fa-solid fa-envelope"></i>
-          </button>
-          <!-- Modal -->
-          <div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
-            aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-              <div class="modal-content w-75">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Share post</h5>
-                  <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                  <form action="." method="POST">
-                    {% csrf_token %}
-                    {% for field in share_form %}
-                    <div class="form-outline mb-4">
-                      {{ field }}
-                      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    </div>
-                    {% endfor %}
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block">Share</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Modal -->
         </section>
         <!--Section: Share buttons-->
 

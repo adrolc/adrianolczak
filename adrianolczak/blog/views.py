@@ -1,18 +1,14 @@
-from datetime import date
-
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.cache import cache
 from django.core.mail import send_mail
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, View
+from django.views.generic import DetailView, ListView, View
 
 from .forms import EmailPostForm, SearchForm
 from .models import Post
 
 
-# === Post list ===
 class PostListView(ListView):
     queryset = Post.published.all()
     context_object_name = "posts"
@@ -57,22 +53,6 @@ class PostListView(ListView):
 def post_detail(request, post_slug):
     post = get_object_or_404(Post, slug=post_slug, status=Post.Status.PUBLISHED)
 
-    # Share post via email
-    share_form = EmailPostForm()
-    share_form_sent = "false"
-    if request.method == "POST":
-        share_form = EmailPostForm(request.POST)
-        if share_form.is_valid():
-            cd = share_form.cleaned_data
-            post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = f"{cd['name']} recommends you read " f"{post.title}"
-            message = (
-                f"Read {post.title} at {post_url}\n\n"
-                f"{cd['name']}'s comments: {cd['comments']}"
-            )
-            send_mail(subject, message, "blog@adrianolczak.pl", [cd["to"]])
-            share_form_sent = "true"
-
     # List of similar posts
     # similar_posts = post.tags.similar_objects()[:3]
     post_tags_ids = post.tags.values_list("id", flat=True)
@@ -84,8 +64,6 @@ def post_detail(request, post_slug):
     context = {
         "post": post,
         "similar_posts": similar_posts,
-        "share_form": share_form,
-        "share_form_sent": share_form_sent,
         "domain": get_current_site(request).domain,
     }
     return render(request, "blog/pages/post_detail.html", context)
