@@ -1,11 +1,10 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail
 from django.db.models import Count
-from django.shortcuts import get_object_or_404, render
-from django.views.generic import DetailView, ListView, View
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 
-from .forms import EmailPostForm, SearchForm
+from .forms import SearchForm
 from .models import Post
 
 
@@ -50,20 +49,26 @@ class PostListView(ListView):
         return context
 
 
-def post_detail(request, post_slug):
-    post = get_object_or_404(Post, slug=post_slug, status=Post.Status.PUBLISHED)
+class PostDetailView(DetailView):
+    model = Post
+    template_name = "blog/pages/post_detail.html"
+    queryset = Post.published.all()
 
-    # List of similar posts
-    # similar_posts = post.tags.similar_objects()[:3]
-    post_tags_ids = post.tags.values_list("id", flat=True)
-    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
-        "-same_tags", "-publish"
-    )[:3]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    context = {
-        "post": post,
-        "similar_posts": similar_posts,
-        "domain": get_current_site(request).domain,
-    }
-    return render(request, "blog/pages/post_detail.html", context)
+        # Get the post tags
+        post_tags_ids = self.object.tags.values_list("id", flat=True)
+        # Get posts with the same tags
+        similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(
+            id=self.object.id
+        )
+        # Sort and select the top three
+        similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
+            "-same_tags", "-publish"
+        )[:3]
+
+        context["similar_posts"] = similar_posts
+        context["domain"] = get_current_site(self.request).domain
+
+        return context
