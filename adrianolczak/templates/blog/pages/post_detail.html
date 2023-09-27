@@ -4,9 +4,8 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
-{% block head %}
+{% block custom_head %}
 <link href="{% static 'global/prism/dark2/prism.css' %}" rel="stylesheet">
-<link href="{% static 'blog/css/custom.css' %}" rel="stylesheet">
 
 <meta property="og:title" content="{{ post.title }}">
 <meta property="og:type" content="article">
@@ -83,7 +82,7 @@
         <section class="text-center">
           <h4 class="mb-5"><strong>Similar posts</strong></h4>
           <div class="row">
-            {% include "blog/includes/post_card.html" with posts=similar_posts col_settings="col-lg-6 mb-4" %}
+            {% include "blog/includes/post_card.html" with posts=similar_posts post_col="col-lg-6 mb-4" post_image_col="col-12" post_content_col="col-12" %}
           </div>
         </section>
         <!--Section: List of similar posts-->
@@ -105,7 +104,7 @@
 {% endblock %}
 
 {% block sidebar %}
-{% include 'blog/includes/sidebar/sidebar_home.html' %}
+{% include 'blog/includes/sidebar/sidebar.html' %}
 {% endblock %}
 
 {% block scripts %}

@@ -1,15 +1,10 @@
 {% for post in latest_posts %}
 <div class="side_bar-latest_posts d-flex align-items-center gap-2 mb-3">
-    <img
-      src="{{ post.photo.url }}"
-      alt="{{ post.title }}"
-      class="img-fluid"
-      width="110"
-    />
-    <div class="d-flex flex-column">
-        <h5 class="" style="font-size: 17px"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
-        <small class="text-muted">{{ post.publish|date:"d/m/Y" }}</small>
-    </div>
+  <img src="{{ post.photo.url }}" alt="{{ post.title }}" class="img-fluid" width="110" />
+  <div class="d-flex flex-column">
+    <h5 class="mb-0" style="font-size: 13px"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+    <small class="text-muted" style="font-size: 10px;">{{ post.publish|date:"d/m/Y" }}</small>
+  </div>
 </div>
 
 

@@ -3,13 +3,17 @@
 {% load static %}
 
 {% block head %}
-<link href="{% static 'blog/css/custom.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
+{% block custom_head %}
+<!-- Additional imports etc -->
+{% endblock %}
+
 {% endblock %}
 
 {% block main_content %}
 
 <!-- Navbar -->
-{% include 'includes/navbar.html' %}
+{% include 'blog/includes/navbar.html' %}
 
 {% block top %}
 <!-- content under navbar -->
@@ -18,13 +22,13 @@
 <main class="main-content">
   <div class="container">
       <div class="row g-4">
-          <div class="col-12 col-md-9">
+          <div class="col-12 col-lg-9">
             {% block content %}
             <!-- content -->
             {% endblock %}
           </div>
           <!-- Sidebar -->
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-lg-3">
             {% block sidebar %}
             <!-- sidebar -->
             {% endblock %}
@@ -34,7 +38,7 @@
 </main>
  
 <!-- Footer -->
-{% include 'includes/footer.html' %}
+{% include 'blog/includes/footer.html' %}
 
 
 {% endblock %}

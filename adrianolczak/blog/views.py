@@ -14,10 +14,13 @@ class PostListView(ListView):
     paginate_by = 6
     template_name = "blog/pages/home.html"
 
+    def __init__(self):
+        self.list_name = "All posts"
+
     def get_queryset(self):
         self.list_name = "All posts"
         queryset = super().get_queryset()
-        tag_slug = self.kwargs.get("tag_slug")
+        tag_slug = self.kwargs.get("slug")
         query = self.request.GET.get("query")
         if tag_slug:
             queryset = queryset.filter(tags__slug=tag_slug)
@@ -44,7 +47,6 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["search_form"] = SearchForm()
         context["list_name"] = self.list_name
         return context
 
