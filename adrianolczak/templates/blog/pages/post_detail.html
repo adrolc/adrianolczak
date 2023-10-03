@@ -54,29 +54,10 @@
         <!--Section: Post data-->
 
         <!--Section: Text-->
-        <section class="post-content">
+        <section class="post-content border-bottom py-4 mb-4">
           {{ post.body|markdown }}
         </section>
         <!--Section: Text-->
-
-        <!--Section: Share buttons-->
-        <section class="text-center border-top border-bottom py-4 mb-4">
-          <p><strong>Share with your friends:</strong></p>
-
-          <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"
-            type="button" class="btn btn-primary me-1" style="background-color: #3b5998;">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="https://twitter.com/intent/tweet?text={{ post.title }}&url={{ request.build_absolute_uri }}"
-            target="_blank" type="button" class="btn btn-primary me-1" style="background-color: #55acee;">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" type="button"
-            class="btn btn-primary me-1" style="background-color: #0082ca;">
-            <i class="fab fa-linkedin"></i>
-          </a>
-        </section>
-        <!--Section: Share buttons-->
 
         <!--Section: List of similar posts-->
         <section class="text-center">
