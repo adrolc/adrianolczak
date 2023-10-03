@@ -81,9 +81,13 @@
         <!--Section: List of similar posts-->
         <section class="text-center">
           <h4 class="mb-5"><strong>Similar posts</strong></h4>
+          {% if similar_posts %}
           <div class="row">
             {% include "blog/includes/post_card.html" with posts=similar_posts post_col="col-lg-6 mb-4" post_image_col="col-12" post_content_col="col-12" %}
           </div>
+          {% else %}
+          <p>There are not similar posts yet.</p>
+          {% endif %}
         </section>
         <!--Section: List of similar posts-->
 
