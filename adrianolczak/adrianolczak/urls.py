@@ -22,8 +22,8 @@ from django.urls import include, path
 from homepage.sitemaps import HomepageSitemap
 
 sitemaps = {
-    "posts": PostSitemap,
     "homepage": HomepageSitemap,
+    "posts": PostSitemap,
 }
 
 urlpatterns = [
