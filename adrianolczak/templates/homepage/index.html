@@ -2,7 +2,11 @@
 
 {% load static %}
 
-{% block content %}
+
+{% block title %}Adrian Olczak - Software Developer{% endblock %}
+{% block description %}Custom software development tailored to your needs. I specialize in creating web and desktop applications. Let's collaborate!{% endblock %}
+
+{% block body %}
 <!-- ======= Mobile nav toggle button ======= -->
 <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
@@ -10,7 +14,7 @@
 <header id="header">
   <div class="d-flex flex-column">
     <div class="profile">
-      <img src="{% static 'global/img/logo.svg' %}" alt="" class="img-fluid">
+      <img src="{% static 'global/img/logo.svg' %}" alt="Adrian Olczak Logo" class="img-fluid">
       <h1 class="text-light"><a href="#">Adrian Olczak</a></h1>
       <div class="social-links mt-3 text-center">
         <a href="{{ twitter }}" target="_blank"><i class="bx bxl-twitter"></i></a>

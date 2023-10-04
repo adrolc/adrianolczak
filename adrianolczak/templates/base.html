@@ -5,31 +5,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="author" content="Adrian Olczak">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="canonical" href="">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <link href="{% static 'global/fontawesome/css/all.min.css' %}" rel="stylesheet">
     <link href="{% static 'global/mdb/css/mdb.min.css' %}" rel="stylesheet">
     <link href="{% static 'global/css/global.css' %}" rel="stylesheet">
     <!-- Favicons -->
     <link href="{% static 'global/img/favicon.png' %}" rel="icon">
     <link href="{% static 'global/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-    {% block head %}
-    <!-- Custom head content -->
-    {% endblock %}
-  </head>
-  <body>
+
+    {% block head %}{% endblock %}
     
-    <div class="d-flex flex-column min-vh-100">
-      {% block main_content %}
-      {% endblock %}
-    </div>
+</head>
+<body>
+    {% block body %}{% endblock %}
     
     <script src="{% static 'global/mdb/js/mdb.min.js' %}"></script>
-    {% block scripts %}
-    <!-- Custom js scripts -->
-    {% endblock %}
+    {% block js_scripts %}{% endblock %}
   </body>
 </html>

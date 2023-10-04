@@ -1,19 +1,8 @@
+{% extends 'base.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Adrian Olczak - Backend Developer</title>
-  <meta content="I am an experienced backend software developer specializing in creating software for various industries. I provide services such as designing, developing and maintaining web applications, content management systems, e-commerce platforms, and more. Contact me to speed up and streamline your business processes" name="description">
-
-  <!-- Favicons -->
-  <link href="{% static 'global/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'global/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-
+{% block head %}
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
@@ -23,35 +12,23 @@
   <link href="{% static 'homepage/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
   <link href="{% static 'homepage/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
   <link href="{% static 'homepage/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-  <link href="{% static 'global/mdb/css/mdb.min.css' %}" rel="stylesheet">
-  <link href="{% static 'global/fontawesome/css/all.min.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="{% static 'global/css/global.css' %}" rel="stylesheet">
   <link href="{% static 'homepage/css/style.css' %}" rel="stylesheet">
   <link href="{% static 'blog/css/post_card.css' %}" rel="stylesheet">
-
-</head>
-
-<body>
+{% endblock %}
 
 
-    {% block content %}
-    {% endblock %}
-
+{% block js_scripts %}
   <!-- Vendor JS Files -->
   <script src="{% static 'homepage/vendor/purecounter/purecounter_vanilla.js' %}"></script>
   <script src="{% static 'homepage/vendor/aos/aos.js' %}"></script>
-  <script src="{% static 'global/mdb/js/mdb.min.js' %}"></script>
   <script src="{% static 'homepage/vendor/glightbox/js/glightbox.min.js' %}"></script>
   <script src="{% static 'homepage/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
   <script src="{% static 'homepage/vendor/swiper/swiper-bundle.min.js' %}"></script>
   <script src="{% static 'homepage/vendor/typed.js/typed.min.js' %}"></script>
   <script src="{% static 'homepage/vendor/waypoints/noframework.waypoints.js' %}"></script>
 
-  <!-- Template Main JS File -->
-  <script src="{% static 'homepage/js/main.js' %}"></script>
-
-</body>
-
-</html>
+    <!-- Template Main JS File -->
+    <script src="{% static 'homepage/js/main.js' %}"></script>
+{% endblock %}

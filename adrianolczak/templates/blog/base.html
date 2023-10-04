@@ -2,46 +2,46 @@
 
 {% load static %}
 
+<!-- ====================== HEAD ====================== -->
 {% block head %}
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+
 <link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
-{% block custom_head %}
-<!-- Additional imports etc -->
-{% endblock %}
-
-{% endblock %}
-
-{% block main_content %}
-
-<!-- Navbar -->
-{% include 'blog/includes/navbar.html' %}
-
-{% block top %}
-<!-- content under navbar -->
-{% endblock %}
-
-<main class="main-content">
-  <div class="container">
-      <div class="row g-4">
-          <div class="col-12 col-lg-9">
-            {% block content %}
-            <!-- content -->
-            {% endblock %}
-          </div>
-          <!-- Sidebar -->
-          <div class="col-12 col-lg-3">
-            {% block sidebar %}
-            <!-- sidebar -->
-            {% endblock %}
-          </div>
-      </div>
-  </div>
-</main>
- 
-<!-- Footer -->
-{% include 'blog/includes/footer.html' %}
-
-
+    {% block page_head %}
+    <!-- Custom head -->
+    {% endblock %}
 {% endblock %}
 
 
+<!-- ====================== JS at the end of the body ====================== -->
+{% block js_scripts %}
+    {% block page_scripts %}
+    <!-- Custom js scripts -->
+    {% endblock %}
+{% endblock %}
 
+
+<!-- ====================== BODY ====================== -->
+{% block body %}
+    <div class="d-flex flex-column min-vh-100">
+        {% include 'blog/includes/navbar.html' %}
+        <main class="main-content">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-12 col-lg-9">
+                        {% block content %}
+                        <!-- content -->
+                        {% endblock %}
+                    </div>
+                    <!-- Sidebar -->
+                    <div class="col-12 col-lg-3">
+                        {% block sidebar %}
+                        <!-- sidebar -->
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        {% include 'blog/includes/footer.html' %}
+    </div>
+{% endblock %}
