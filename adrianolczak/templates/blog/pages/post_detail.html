@@ -3,8 +3,9 @@
 {% load blog_tags %}
 
 {% block title %}{{ post.title }}{% endblock %}
+{% block description %}{{ post.body|truncatechars:150 }}{% endblock %}
 
-{% block custom_head %}
+{% block page_head %}
 <link href="{% static 'global/prism/dark2/prism.css' %}" rel="stylesheet">
 
 <meta property="og:title" content="{{ post.title }}">
@@ -12,7 +13,7 @@
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
 <meta property="og:image" content="{% if post.photo %}{{ post.photo.url }}{% endif %}">
 <meta property="og:description" content="{{ post.body|truncatechars:150 }}">
-<meta property="og:site_name" content="Tech Blog - adrianolczak.pl">
+<meta property="og:site_name" content="Blog - adrianolczak.pl">
 {% endblock %}
 
 {% block content %}
@@ -32,7 +33,6 @@
           <h1 class="mb-0 h4 pt-3 pb-5 text-center">{{ post.title }}</h1>
           <div class="row align-items-center mb-4">
             <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
-              <img src="{{ post.author.profile.photo.url }}" class="rounded me-2" height="35" alt="" loading="lazy" />
               <span> Published <u><time datetime='{{ post.publish|date:"d-m-Y" }}'>{{ post.publish|date:"d.m.Y" }}</time></u> by</span>
               <span class="text-dark">{{ post.author.get_full_name}}</span>
             </div>
@@ -92,7 +92,7 @@
 {% include 'blog/includes/sidebar/sidebar.html' %}
 {% endblock %}
 
-{% block scripts %}
+{% block page_scripts %}
 <script src="{% static 'global/prism/dark2/prism.js' %}"></script>
 <script src="{% static 'blog/js/custom.js' %}"></script>
 <script id="dsq-count-scr" src="//adrianolczak.disqus.com/count.js" async></script>
