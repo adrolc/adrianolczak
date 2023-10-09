@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:stable
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./sites-available/:/etc/nginx/sites-available/
+      - adrianolczak_static:/app/adrianolczak/static
+      - adrianolczak_media:/app/adrianolczak/media
+      - /etc/letsencrypt/live/adrianolczak.pl/fullchain.pem:/ssl/adrianolczak.pl/fullchain.pem
+      - /etc/letsencrypt/live/adrianolczak.pl/privkey.pem:/ssl/adrianolczak.pl/privkey.pem
+    networks:
+      - nginx_network
+
+      
+networks:
+  nginx_network:
+    external: true
+
+volumes:
+  adrianolczak_static:
+    external: true
+  adrianolczak_media:
+    external: true
