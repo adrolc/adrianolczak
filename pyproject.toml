@@ -11,13 +11,21 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
+[tool.poetry.group.prod]
+optional = true
+
+
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 django = "^4.2.5"
 django-taggit = "^4.0.0"
 markdown = "^3.4.4"
 pillow = "^10.0.1"
 psycopg2-binary = "^2.9.7"
+
+
+[tool.poetry.group.prod.dependencies]
+uwsgi = "^2.0.22"
 
 
 [tool.poetry.group.dev.dependencies]
