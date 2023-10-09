@@ -1,0 +1,29 @@
+FROM python:3.9-slim-bullseye
+
+WORKDIR /app
+
+RUN apt-get update -q && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-dev
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN apt-get autoremove -y \
+    build-essential \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY ./adrianolczak /app/adrianolczak
+COPY ./config/uwsgi/uwsgi.ini /app/config/
+
+ENV DJANGO_SETTINGS_MODULE=adrianolczak.settings.prod
+
+EXPOSE 8001
+
+COPY ./scripts/entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["uwsgi", "--ini", "/app/config/uwsgi.ini"]
