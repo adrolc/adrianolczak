@@ -24,7 +24,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: adrianolczak
+    image: adrianolczak_dev
+    env_file:
+      - .env
     volumes:
       - ./adrianolczak:/app
     ports:
