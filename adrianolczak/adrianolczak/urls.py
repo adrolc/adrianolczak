@@ -8,15 +8,13 @@ from django.views.static import serve
 from homepage.sitemaps import HomepageSitemap
 
 sitemaps = {
-    "homepage": HomepageSitemap,
     "posts": PostSitemap,
 }
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("homepage.urls", namespace="homepage")),
-    path("blog/", include("blog.urls", namespace="blog")),
+    path("", include("blog.urls", namespace="blog")),
     path(
         "sitemap.xml",
         sitemap,
